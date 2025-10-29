@@ -9,12 +9,23 @@ package lenguajes.final_project.backend.token;
  * @author antho
  */
 public enum TokenType {
+    //Para el analizador syntactico
+    IGUAL,
+    PCOMA,
+    MAS,
+    MENOS,
+    POR,
+    DIV,
+    EOF,
     
+    //Para el analizador lexico
     NUMERO,
     DECIMAL,
     PUNTUACION,
     AGRUPACION,
     OPERADOR,
+    CADENA,
+    COMENTARIO_LINEA,
     COMENTARIO_BLOQUE,
     IDENTIFICADOR,
     PALABRAS_RESERVADAS,

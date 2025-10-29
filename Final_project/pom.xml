@@ -11,4 +11,15 @@
         <maven.compiler.target>21</maven.compiler.target>
         <exec.mainClass>lenguajes.final_project.Final_project</exec.mainClass>
     </properties>
+    
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/de.jflex/jflex -->
+        <dependency>
+            <groupId>de.jflex</groupId>
+            <artifactId>jflex</artifactId>
+            <version>1.9.1</version>
+        </dependency>
+
+    </dependencies>
+    
 </project>

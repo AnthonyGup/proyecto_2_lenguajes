@@ -22,6 +22,7 @@ public class Automata {
     // x = estados y = simbolos
     private final int[][] transiciones = new int[10][8];
     private ArrayList<Transition> grafo = new ArrayList<>();
+    private ArrayList<String> terminalText = new ArrayList<>();
     private final javax.swing.JTextPane pane;
     private final StyledDocument doc;
     private int estadoActual = 0;
@@ -142,8 +143,9 @@ public class Automata {
         transiciones[9][7] = -1;
     }
 
-    public void analizar(String archivo) throws BadLocationException {
+    public void analizar(String archivo) {
         tokens = new ArrayList<>();
+        terminalText = new ArrayList<>();
         grafo.clear(); //limpia el arreglo del grafo
         
         //Normaliza el texto, pasa los saltos de linea de windows a los otros
@@ -171,13 +173,13 @@ public class Automata {
                         estadoActual = transiciones[estadoActual][tipo];
                         grafo.add(new Transition("q" + estadoAnterior, "q" + estadoActual, c));
                     } else {
-                        doc.insertString(doc.getLength(), "ES UN ESPACIO HAY QUE REINICIAR EL AUTOMATA\n", null);
+                        terminalText.add("ES UN ESPACIO HAY QUE REINICIAR EL AUTOMATA\n");
                         reiniciarAutomata(lexema,i - lexema.length(), generadorPosicion.calcularPosicion(i - lexema.length(), splits));
                         lexema = "";
                     }
                 }
                 case -1 -> {
-                    doc.insertString(doc.getLength(), "ERROR EL CARACTER NO ESTA EN EL ALFABETO\n", null);
+                    terminalText.add("ERROR EL CARACTER NO ESTA EN EL ALFABETO\n");
                     estadoActual = -1;
                     reiniciarAutomata(lexema, i - lexema.length(), generadorPosicion.calcularPosicion(i - lexema.length(), splits));
                     lexema = "";
@@ -186,12 +188,12 @@ public class Automata {
                     estadoAnterior = estadoActual;
                     estadoActual = transiciones[estadoActual][tipo];
                     if (estadoActual == -1) {
-                        doc.insertString(doc.getLength(), "ERROR, reiniciando el automata\n", null);
+                        terminalText.add("ERROR: reinicianddo el automata\n");
                         reiniciarAutomata(lexema, i - lexema.length() , generadorPosicion.calcularPosicion(i - lexema.length(), splits));
                         lexema = "";
                     } else {
                         grafo.add(new Transition("q" + estadoAnterior, "q" + estadoActual, c));
-                        doc.insertString(doc.getLength(), "me movi del estado: " + estadoAnterior + " al estado: " + estadoActual + " con un: " + c + "\n", null);
+                        terminalText.add("- Me movi del estado: " + estadoAnterior + " al estado: " + estadoActual + " con un: " + c + "\n");
                     }
                 }
             }
@@ -199,7 +201,7 @@ public class Automata {
         
         
         reiniciarAutomata(lexema, indice - lexema.length(), generadorPosicion.calcularPosicion(indice - lexema.length(), splits));
-        ImprimirTokens();
+        imprimirTokens();
     }
 
     private ArrayList<Integer> evaluarSplits(String texto) {
@@ -212,15 +214,15 @@ public class Automata {
         return saltoLinea;
     }
 
-    public void ImprimirTokens() throws BadLocationException {
-        doc.insertString(doc.getLength(), "TOKENS ENCONTRADOS\n", null);
+    public void imprimirTokens() {
+        terminalText.add("--- TOKENS ENCONTRADOS ----\n");
         for (Token i : tokens) {
-            doc.insertString(doc.getLength(), "Lexema: '" + i.getLexema() + "' tipo Token: " + i.getTipo() + "\n", null);
+            terminalText.add("Lexema: '" + i.getLexema() + "' || Tipo de Token: "+ i.getTipo() + "\n");
         }
     }
 
-    public void reiniciarAutomata(String lexema, int indice, Position position) throws BadLocationException {
-        doc.insertString(doc.getLength(), "LEXEMA: " + lexema + "\n", null);
+    public void reiniciarAutomata(String lexema, int indice, Position position) {
+        terminalText.add("LEXEMA: "+ lexema + "\n");
         if (!lexema.equals("")) {
             Token nuevoToken = new Token(getTipoToken(estadoActual, lexema), lexema, indice, position);
             tokens.add(nuevoToken);
@@ -233,26 +235,34 @@ public class Automata {
 
     public TokenType getTipoToken(int estadoActual, String lexema) {
         switch (estadoActual) {
-            case 1:
+            case 1 -> {
                 return TokenType.NUMERO;
-            case 3:
+            }
+            case 3 -> {
                 return TokenType.DECIMAL;
-            case 4:
+            }
+            case 4 -> {
                 return verificarPalabraReservada(lexema);
-            case 5:
+            }
+            case 5 -> {
                 return TokenType.PUNTUACION;
-            case 6:
+            }
+            case 6 -> {
                 return TokenType.AGRUPACION;
-            case 7:
+            }
+            case 7 -> {
                 return TokenType.OPERADOR;
-            case 9:
+            }
+            case 9 -> {
                 return TokenType.COMENTARIO_BLOQUE;
-            case -1:
+            }
+            case -1 -> {
                 return TokenType.ERROR;
-            default:
-                break;
+            }
+            default -> {
+                return TokenType.ERROR;
+            }
         }
-        return TokenType.ERROR;
     }
 
     public TokenType verificarPalabraReservada(String lexema) {
@@ -321,5 +331,11 @@ public class Automata {
     
     public ArrayList<Token> getTOKENS() {
         return tokens;
+    }
+    
+    public void imprimirTerminal() throws BadLocationException {
+        for (int i = 0; i < terminalText.size(); i++) {
+            doc.insertString(doc.getLength(), terminalText.get(i), null);
+        }
     }
 }

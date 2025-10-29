@@ -13,6 +13,7 @@ import lenguajes.final_project.backend.position.Position;
 public class Token {
     
     private TokenType tipo;
+    private TokenType tipo2;
     private String lexema;
     private int numCaracter;
     private Position posicion;
@@ -24,6 +25,14 @@ public class Token {
         this.posicion = posicion;
     }
 
+    public TokenType getTipo2() {
+        return tipo2;
+    }
+
+    public void setTipo2(TokenType tipo2) {
+        this.tipo2 = tipo2;
+    }
+    
     public Token(String lexema, TokenType tipo) {
         this.tipo = tipo;
         this.lexema = lexema;

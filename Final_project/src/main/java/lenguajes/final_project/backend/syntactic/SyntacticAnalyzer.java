@@ -7,11 +7,16 @@ package lenguajes.final_project.backend.syntactic;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
-import static javax.swing.text.html.HTML.Attribute.ID;
-import static javax.swing.text.html.HTML.Tag.DIV;
 import lenguajes.final_project.backend.token.Token;
+import lenguajes.final_project.backend.token.TokenType;
 import static lenguajes.final_project.backend.token.TokenType.DECIMAL;
+import static lenguajes.final_project.backend.token.TokenType.EOF;
+import static lenguajes.final_project.backend.token.TokenType.IGUAL;
+import static lenguajes.final_project.backend.token.TokenType.MAS;
+import static lenguajes.final_project.backend.token.TokenType.MENOS;
 import static lenguajes.final_project.backend.token.TokenType.NUMERO;
+import static lenguajes.final_project.backend.token.TokenType.PCOMA;
+import static lenguajes.final_project.backend.token.TokenType.POR;
 
 /**
  *
@@ -27,7 +32,7 @@ public class SyntacticAnalyzer {
 
     private final String[][] tabla = new String[noTerminales.length][terminales.length];
 
-    public Parser(List<Token> tokens) {
+    public SyntacticAnalyzer(List<Token> tokens) {
         this.tokens = tokens;
         inicializarTabla();
     }
@@ -101,9 +106,9 @@ public class SyntacticAnalyzer {
         return "$";
     }
 
-    private String mapToken(TypeToken tipo) {
+    private String mapToken(TokenType tipo) {
         return switch (tipo) {
-            case ID ->
+            case IDENTIFICADOR ->
                 "ID";
             case IGUAL ->
                 "=";
