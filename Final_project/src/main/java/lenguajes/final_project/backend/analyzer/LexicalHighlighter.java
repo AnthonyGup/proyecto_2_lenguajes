@@ -4,40 +4,26 @@
  */
 package lenguajes.final_project.backend.analyzer;
 
-import javax.swing.JTextPane;
+import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
-//import lenguajes.final_project.backend.jflex.Lexer;
+import lenguajes.final_project.backend.jflex.Lexer;
 import lenguajes.final_project.backend.painter.TextPainter;
-import lenguajes.final_project.backend.token.Token;
 
 public class LexicalHighlighter {
 
-    private JTextPane pane;
+    private final TextPainter PAINTER;
 
-    public LexicalHighlighter(JTextPane pane) {
-        this.pane = pane;
+    public LexicalHighlighter(TextPainter PAINTER) {
+        this.PAINTER = PAINTER;
     }
 
-    public void analizarYColorear() {
-        try {
-            // 1. Obtener texto del editor
-            String texto = pane.getText();
+    public void analizarYColorear(String texto) throws IOException {
+        String textoNormalizado = texto.replace("\r\n", "\n");
 
-            // 2. Crear Lexer usando ese texto
-            //Lexer lexer = new Lexer(new StringReader(texto));
+        
+        Lexer lexer = new Lexer(new StringReader(textoNormalizado));
+        lexer.yylex();
 
-            // 3. Limpiar estilos actuales
-            //pane.getStyledDocument().remove(0, texto.length());
-
-            //lexer.yylex();
-            
-            // 4. Analizar token por token
-            TextPainter painter = new TextPainter(pane);
-            //painter.pintarTexto(lexer.getTokens());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        PAINTER.pintarTexto(lexer.getTokens());
     }
 }

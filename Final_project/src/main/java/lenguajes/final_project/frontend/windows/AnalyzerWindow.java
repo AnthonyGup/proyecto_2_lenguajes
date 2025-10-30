@@ -4,6 +4,7 @@
  */
 package lenguajes.final_project.frontend.windows;
 
+import java.io.IOException;
 import javax.swing.JOptionPane;
 import lenguajes.final_project.backend.analyzer.LexicalHighlighter;
 import lenguajes.final_project.backend.analyzer.WordFinder;
@@ -19,7 +20,6 @@ public class AnalyzerWindow extends javax.swing.JInternalFrame {
     private final FileHandler FILE_HANDLER = new FileHandler();
     private final javax.swing.JDesktopPane jDesktopPane;
     private final TextPainter PAINTER;
-    //private final Automata ANALIZADOR;
     private final LexicalHighlighter lexical;
     private boolean textPaneActivo = true;
     
@@ -31,8 +31,7 @@ public class AnalyzerWindow extends javax.swing.JInternalFrame {
         initComponents();
         this.jDesktopPane = jDesktopPane;
         PAINTER = new TextPainter(textPane);
-        lexical = new LexicalHighlighter(textPane);
-        //ANALIZADOR = new Automata(terminal_textPane, textPane);
+        lexical = new LexicalHighlighter(PAINTER);
     }
 
     /**
@@ -238,10 +237,6 @@ public class AnalyzerWindow extends javax.swing.JInternalFrame {
         FILE_HANDLER.buscarArchivo();
         String texto = FILE_HANDLER.getFileContent();
         textPane.setText(texto);
-        /*
-        ANALIZADOR.analizar(texto, textPane);
-        textPaneActivo = true;
-        */
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -261,13 +256,7 @@ public class AnalyzerWindow extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void textPaneKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textPaneKeyTyped
-  
-            /*
-        if (textPaneActivo) {
-            ANALIZADOR.analizar(texto);
-            lexical.analizarYColorear();
-        }
-            */
+        
     }//GEN-LAST:event_textPaneKeyTyped
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -287,15 +276,13 @@ public class AnalyzerWindow extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        lexical.analizarYColorear();
-        
-        /*
-        try {
-            ANALIZADOR.imprimirTerminal();
-        } catch (BadLocationException ex) {
-            Logger.getLogger(AnalyzerWindow.class.getName()).log(Level.SEVERE, null, ex);
+        if (textPaneActivo) {
+            try {
+                lexical.analizarYColorear(textPane.getText());
+            } catch (IOException ex) {
+                //Manejar exception
+            }
         }
-        */
     }//GEN-LAST:event_jButton3ActionPerformed
 
 

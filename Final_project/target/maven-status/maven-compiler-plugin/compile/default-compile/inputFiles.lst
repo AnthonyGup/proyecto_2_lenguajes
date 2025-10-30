@@ -1,9 +1,8 @@
-C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\backend\analyzer\Automata.java
 C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\backend\analyzer\LexicalHighlighter.java
 C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\backend\analyzer\Transition.java
 C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\backend\analyzer\WordFinder.java
 C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\backend\files\FileHandler.java
-C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\backend\graphics\Transition.java
+C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\backend\jflex\Lexer.java
 C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\backend\painter\TextPainter.java
 C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\backend\position\Position.java
 C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\backend\position\PositionGenerator.java
@@ -11,7 +10,5 @@ C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project
 C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\backend\token\Token.java
 C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\backend\token\TokenType.java
 C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\Final_project.java
-C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\frontend\graphics\GraficFrame.java
-C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\frontend\graphics\GraficPane.java
 C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\frontend\windows\AnalyzerWindow.java
 C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\frontend\windows\MainWindow.java

@@ -16,6 +16,7 @@ public enum TokenType {
     MENOS,
     POR,
     DIV,
+    ESCRIBIR,
     EOF,
     
     //Para el analizador lexico
