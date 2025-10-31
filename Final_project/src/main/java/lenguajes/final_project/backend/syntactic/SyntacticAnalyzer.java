@@ -17,12 +17,12 @@ public class SyntacticAnalyzer {
 
     // No terminales
     private final String[] noTerminales = {
-        "P", "L", "A", "V", "W", "Type", "Arg", "E", "E'", "T", "T'", "F"
+        "P", "L", "A", "V", "W", "Type" /*(S)*/, "Arg"/*(O)*/, "E", "E'", "T", "T'", "F"
     };
 
     // Terminales (tokens esperados)
     private final String[] terminales = {
-        "DEFINIR", "ESCRIBIR", "ID", "=", "CADENA",
+        "DEFINIR", "COMO", "ESCRIBIR", "ID", "=", "CADENA",
         "NUMERO", "DECIMAL", "entero", "numero", "cadena",
         "(", ")", "+", "-", "*", "/", ";", "$"
     };
@@ -77,6 +77,7 @@ public class SyntacticAnalyzer {
         set("E", "ID", "T E'");
         set("E", "NUMERO", "T E'");
         set("E", "DECIMAL", "T E'");
+        set("E", "CADENA", "T E'");
         set("E", "(", "T E'");
 
         // E' -> + T E' | - T E' | ε
@@ -89,6 +90,7 @@ public class SyntacticAnalyzer {
         set("T", "ID", "F T'");
         set("T", "NUMERO", "F T'");
         set("T", "DECIMAL", "F T'");
+        set("T", "CADENA", "F T'");
         set("T", "(", "F T'");
 
         // T' -> * F T' | / F T' | ε
@@ -99,10 +101,11 @@ public class SyntacticAnalyzer {
         set("T'", ";", "ε");
         set("T'", ")", "ε");
 
-        // F -> ID | NUMERO | DECIMAL | ( E )
+        // F -> ID | NUMERO | DECIMAL | CADENA | ( E )
         set("F", "ID", "ID");
         set("F", "NUMERO", "NUMERO");
         set("F", "DECIMAL", "DECIMAL");
+        set("F", "CADENA", "CADENA");
         set("F", "(", "( E )");
     }
 
@@ -143,6 +146,7 @@ public class SyntacticAnalyzer {
             case LPAREN -> "(";
             case RPAREN -> ")";
             case DEFINIR -> "DEFINIR";
+            case COMO -> "COMO";
             case ESCRIBIR -> "ESCRIBIR";
             case ENTERO -> "entero";
             case NUM -> "numero";

@@ -152,6 +152,20 @@ BlockCommentEnd = "\\*/"
 }
 
 /* ================================= -- Agrupación (paréntesis, llaves, corchetes,estas coasa <>) -- =================================*/
+"(" {
+    int inicio = (int)(yychar);
+    Token token = new Token(TokenType.AGRUPACION, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
+    token.setTipo2(TokenType.LPAREN);
+    guardarToken(token);
+}
+
+")" {
+    int inicio = (int)(yychar);
+    Token token = new Token(TokenType.AGRUPACION, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
+    token.setTipo2(TokenType.RPAREN);
+    guardarToken(token);
+}
+
 {Agrupacion} {
     int inicio = (int)(yychar);
     Token token = new Token(TokenType.AGRUPACION, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
