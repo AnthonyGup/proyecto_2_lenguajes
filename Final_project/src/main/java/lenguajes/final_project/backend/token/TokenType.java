@@ -8,7 +8,7 @@ package lenguajes.final_project.backend.token;
  *
  * @author antho
  */
-public enum TokenType {
+     public enum TokenType {
     //Para el analizador syntactico
     IGUAL,
     PCOMA,
@@ -20,6 +20,10 @@ public enum TokenType {
     DEFINIR,
     COMO,
     ENTERO,
+    LPAREN,
+    RPAREN,
+    NUM,
+    CAD,
     EOF,
     
     //Para el analizador lexico

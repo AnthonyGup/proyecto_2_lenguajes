@@ -612,6 +612,9 @@ public class Lexer {
     ArrayList<Token> tokens = new ArrayList<>();
 
     public void guardarToken(Token t){
+        if(t.getTipo2() == null) {
+            t.setTipo2(t.getTipo());
+        }
         tokens.add(t);
     }
 
@@ -1217,7 +1220,7 @@ public class Lexer {
           case 25:
             { int inicio = (int)(yychar);
     Token token = new Token(TokenType.PALABRAS_RESERVADAS, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
-    token.setTipo2(TokenType.CADENA); //????????????????????????
+    token.setTipo2(TokenType.CAD); //????????????????????????
     guardarToken(token);
             }
           // fall through
@@ -1233,7 +1236,7 @@ public class Lexer {
           case 27:
             { int inicio = (int)(yychar);
     Token token = new Token(TokenType.PALABRAS_RESERVADAS, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
-    token.setTipo2(TokenType.NUMERO); //????????????????????
+    token.setTipo2(TokenType.NUM); //????????????????????
     guardarToken(token);
             }
           // fall through

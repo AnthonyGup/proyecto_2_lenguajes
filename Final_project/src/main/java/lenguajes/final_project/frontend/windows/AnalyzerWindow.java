@@ -286,13 +286,7 @@ public class AnalyzerWindow extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        if (textPaneActivo) {
-            try {
-                lexical.analizarYColorear(textPane.getText());
-            } catch (IOException ex) {
-                //Manejar exception
-            }
-        }
+        lexical.analizarSintaxis();
     }//GEN-LAST:event_jButton3ActionPerformed
 
 

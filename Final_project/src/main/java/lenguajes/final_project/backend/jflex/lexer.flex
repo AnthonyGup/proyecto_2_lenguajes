@@ -21,6 +21,9 @@ import java.util.ArrayList;
     ArrayList<Token> tokens = new ArrayList<>();
 
     public void guardarToken(Token t){
+        if(t.getTipo2() == null) {
+            t.setTipo2(t.getTipo());
+        }
         tokens.add(t);
     }
 
@@ -229,13 +232,13 @@ BlockCommentEnd = "\\*/"
 {NUMERO} {
     int inicio = (int)(yychar);
     Token token = new Token(TokenType.PALABRAS_RESERVADAS, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
-    token.setTipo2(TokenType.NUMERO); //????????????????????
+    token.setTipo2(TokenType.NUM); //????????????????????
     guardarToken(token);
 }
 {CADENA_WORD} {
     int inicio = (int)(yychar);
     Token token = new Token(TokenType.PALABRAS_RESERVADAS, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
-    token.setTipo2(TokenType.CADENA); //????????????????????????
+    token.setTipo2(TokenType.CAD); //????????????????????????
     guardarToken(token);
 }
 
