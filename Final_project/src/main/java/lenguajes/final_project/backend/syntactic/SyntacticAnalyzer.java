@@ -4,6 +4,7 @@
  */
 package lenguajes.final_project.backend.syntactic;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
@@ -25,6 +26,7 @@ import static lenguajes.final_project.backend.token.TokenType.POR;
 public class SyntacticAnalyzer {
 
     private final List<Token> tokens;
+    private ArrayList<String> textToTerminal;
     private int index = 0;
 
     private final String[] noTerminales = {"P", "L", "A", "E", "E'", "T", "T'", "F"};
