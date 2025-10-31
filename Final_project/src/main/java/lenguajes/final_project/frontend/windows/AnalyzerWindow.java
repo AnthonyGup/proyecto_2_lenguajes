@@ -6,6 +6,7 @@ package lenguajes.final_project.frontend.windows;
 
 import java.io.IOException;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import lenguajes.final_project.backend.analyzer.LexicalHighlighter;
 import lenguajes.final_project.backend.analyzer.WordFinder;
 import lenguajes.final_project.backend.files.FileHandler;
@@ -256,7 +257,16 @@ public class AnalyzerWindow extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void textPaneKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textPaneKeyTyped
-        
+        if (textPaneActivo) {
+        SwingUtilities.invokeLater(() -> {
+            try {
+                lexical.analizarYColorear(textPane.getText());
+                textPane.repaint();
+            } catch (IOException ex) {
+                // Manejar exception
+            }
+        });
+    }
     }//GEN-LAST:event_textPaneKeyTyped
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

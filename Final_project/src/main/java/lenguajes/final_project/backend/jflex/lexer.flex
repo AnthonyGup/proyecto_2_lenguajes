@@ -35,21 +35,24 @@ import java.util.ArrayList;
 Identificador = [:jletter:] [:jletterdigit:]*
 DIGITO = [0-9]
 Numero = (0|([1-9][0-9]*))
-Decimal = ({Numero}\.{DIGITO}+)|(\.{DIGITO}+)
+Decimal = ({Numero}\.{DIGITO}+)
 LineTerminator = \r\n|\r|\n
 WhiteSpace     = [ \t\f]+
 
 /* Palabras reservadas: las cubrimos en mayúsculas y minúsculas explícitamente para evitar ambigüedad */
 SI = ( "si" | "SI" )
 ENTONCES = ( "entonces" | "ENTONCES" )
-DEFINIR = ( "definir" | "DEFINIR" )
-COMO = ( "como" | "COMO" )
 ENTERO = ( "entero" | "ENTERO" )
 NUMERO = ( "numero" | "NUMERO" )
 CADENA_WORD = ( "cadena" | "CADENA" )
 ESCRIBIR = ( "escribir" | "ESCRIBIR" )
+DEFINIR = ( "definir" | "DEFINIR" )
+COMO = ( "como" | "COMO" )
 
 /* Otros */
+Puntuacion = ( "." | "," | ";" | ":" )
+Agrupacion = ( "(" | ")" | "[" | "]" | "{" | "}" | "<" | ">")
+
 COMILLA = \"
 LineCommentStart = "//"
 BlockCommentStart = "/\\*"
@@ -99,14 +102,26 @@ BlockCommentEnd = "\\*/"
 "%" {
     int inicio = (int)(yychar);
     Token token = new Token(TokenType.OPERADOR, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
-    /* No hay constante explícita para módulo en enum; lo dejamos como OPERADOR general */
     guardarToken(token);
 }
 
+/* ================================= -- Errores quue no capta por si solo -- =================================*/
+{Identificador}{Puntuacion} {
+    int inicio = (int)(yychar);
+    Token token = new Token(TokenType.ERROR, yytext(), inicio, new Position(yyline + 1, yycolumn - yylength() + 1));
+    guardarToken(token);
+}
+
+{Numero}{Identificador} {
+    int inicio = (int)(yychar);
+    Token token = new Token(TokenType.ERROR, yytext(), inicio, new Position(yyline + 1, yycolumn - yylength() + 1));
+    guardarToken(token);
+}
 /* ================================= -- Igual y punto y coma (tu enum tiene IGUAL y PCOMA) -- =================================*/
 "=" {
     int inicio = (int)(yychar);
     Token token = new Token(TokenType.OPERADOR, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
+    token.setTipo2(TokenType.IGUAL);
     guardarToken(token);
 }
 ";" {
@@ -116,7 +131,6 @@ BlockCommentEnd = "\\*/"
     guardarToken(token);
 }
 
-/* ================================= -- Puntuación adicional: punto, coma, dos puntos -- ================================= */
 "." {
     int inicio = (int)(yychar);
     Token token = new Token(TokenType.PUNTUACION, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
@@ -134,33 +148,8 @@ BlockCommentEnd = "\\*/"
     guardarToken(token);
 }
 
-/* ================================= -- Agrupación (paréntesis, llaves, corchetes) -- =================================*/
-"(" {
-    int inicio = (int)(yychar);
-    Token token = new Token(TokenType.AGRUPACION, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
-    guardarToken(token);
-}
-")" {
-    int inicio = (int)(yychar);
-    Token token = new Token(TokenType.AGRUPACION, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
-    guardarToken(token);
-}
-"{" {
-    int inicio = (int)(yychar);
-    Token token = new Token(TokenType.AGRUPACION, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
-    guardarToken(token);
-}
-"}" {
-    int inicio = (int)(yychar);
-    Token token = new Token(TokenType.AGRUPACION, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
-    guardarToken(token);
-}
-"[" {
-    int inicio = (int)(yychar);
-    Token token = new Token(TokenType.AGRUPACION, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
-    guardarToken(token);
-}
-"]" {
+/* ================================= -- Agrupación (paréntesis, llaves, corchetes,estas coasa <>) -- =================================*/
+{Agrupacion} {
     int inicio = (int)(yychar);
     Token token = new Token(TokenType.AGRUPACION, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
     guardarToken(token);
@@ -176,7 +165,7 @@ BlockCommentEnd = "\\*/"
 
 \"([^\"\n\r])*\" {
     int inicio = (int)(yychar);
-    Token token = new Token(TokenType.COMENTARIO_LINEA, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
+    Token token = new Token(TokenType.CADENA, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
     guardarToken(token);
 }
 
@@ -200,45 +189,53 @@ BlockCommentEnd = "\\*/"
 /* ================================= -- Palabras reservadas  -- ================================= */
 {ESCRIBIR} {
     int inicio = (int)(yychar);
-    Token token = new Token(TokenType.ESCRIBIR, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
-    /* ESCRIBIR ya existe en tu enum como token independiente */
+    Token token = new Token(TokenType.PALABRAS_RESERVADAS, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
+    token.setTipo2(TokenType.ESCRIBIR);
     guardarToken(token);
 }
 
+{DEFINIR} {
+    int inicio = (int)(yychar);
+    Token token = new Token(TokenType.PALABRAS_RESERVADAS, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
+    token.setTipo2(TokenType.DEFINIR);
+    guardarToken(token);
+}
+
+{COMO} {
+    int inicio = (int)(yychar);
+    Token token = new Token(TokenType.PALABRAS_RESERVADAS, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
+    token.setTipo2(TokenType.COMO);
+    guardarToken(token);
+}
 /* ================================= otras reservadas generales: las marcamos como PALABRAS_RESERVADAS  ================================= */
 {SI} {
     int inicio = (int)(yychar);
     Token token = new Token(TokenType.PALABRAS_RESERVADAS, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
     guardarToken(token);
 }
+
 {ENTONCES} {
     int inicio = (int)(yychar);
     Token token = new Token(TokenType.PALABRAS_RESERVADAS, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
     guardarToken(token);
 }
-{DEFINIR} {
-    int inicio = (int)(yychar);
-    Token token = new Token(TokenType.PALABRAS_RESERVADAS, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
-    guardarToken(token);
-}
-{COMO} {
-    int inicio = (int)(yychar);
-    Token token = new Token(TokenType.PALABRAS_RESERVADAS, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
-    guardarToken(token);
-}
+
 {ENTERO} {
     int inicio = (int)(yychar);
     Token token = new Token(TokenType.PALABRAS_RESERVADAS, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
+    token.setTipo2(TokenType.ENTERO);
     guardarToken(token);
 }
 {NUMERO} {
     int inicio = (int)(yychar);
     Token token = new Token(TokenType.PALABRAS_RESERVADAS, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
+    token.setTipo2(TokenType.NUMERO); //????????????????????
     guardarToken(token);
 }
 {CADENA_WORD} {
     int inicio = (int)(yychar);
     Token token = new Token(TokenType.PALABRAS_RESERVADAS, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
+    token.setTipo2(TokenType.CADENA); //????????????????????????
     guardarToken(token);
 }
 
