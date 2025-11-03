@@ -32,7 +32,6 @@ lenguajes\final_project\backend\analyzer\WordFinder.class
 lenguajes\final_project\backend\reports\ReportesExporter.class
 lenguajes\final_project\frontend\windows\AnalyzerWindow$4.class
 lenguajes\final_project\frontend\windows\Reporte$1.class
-lenguajes\final_project\backend\analyzer\Transition.class
 lenguajes\final_project\actions\Operator.class
 lenguajes\final_project\frontend\windows\AnalyzerWindow$9.class
 lenguajes\final_project\actions\Asignador.class
