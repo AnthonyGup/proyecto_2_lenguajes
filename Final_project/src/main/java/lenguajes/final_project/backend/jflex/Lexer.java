@@ -1135,6 +1135,7 @@ public class Lexer {
           case 13:
             { int inicio = (int)(yychar);
     Token token = new Token(TokenType.NUMERO, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
+    token.setTipo2(TokenType.NUM); //????????????????????
     guardarToken(token);
             }
           // fall through
@@ -1217,6 +1218,7 @@ public class Lexer {
           case 24:
             { int inicio = (int)(yychar);
     Token token = new Token(TokenType.DECIMAL, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
+    token.setTipo2(TokenType.NUM); //????????????????????
     guardarToken(token);
             }
           // fall through

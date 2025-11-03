@@ -5,12 +5,15 @@
 package lenguajes.final_project.frontend.windows;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import lenguajes.final_project.backend.analyzer.LexicalHighlighter;
 import lenguajes.final_project.backend.analyzer.WordFinder;
 import lenguajes.final_project.backend.files.FileHandler;
 import lenguajes.final_project.backend.painter.TextPainter;
+import lenguajes.final_project.exceptions.OperacionException;
 
 /**
  *
@@ -286,7 +289,11 @@ public class AnalyzerWindow extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        lexical.analizarSintaxis();
+        try {
+            lexical.analizarSintaxis(terminal_textPane);
+        } catch (OperacionException ex) {
+            Logger.getLogger(AnalyzerWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
 

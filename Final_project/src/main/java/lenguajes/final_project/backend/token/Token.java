@@ -25,17 +25,18 @@ public class Token {
         this.posicion = posicion;
     }
 
+    public Token(String lexema, TokenType tipo) {
+        this.tipo = tipo;
+        this.lexema = lexema;
+    }
+    
+    
     public TokenType getTipo2() {
         return tipo2;
     }
 
     public void setTipo2(TokenType tipo2) {
         this.tipo2 = tipo2;
-    }
-    
-    public Token(String lexema, TokenType tipo) {
-        this.tipo = tipo;
-        this.lexema = lexema;
     }
     
     public TokenType getTipo() {

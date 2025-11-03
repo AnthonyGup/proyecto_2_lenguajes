@@ -7,10 +7,12 @@ package lenguajes.final_project.backend.analyzer;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import lenguajes.final_project.actions.Actions;
 import lenguajes.final_project.backend.jflex.Lexer;
 import lenguajes.final_project.backend.painter.TextPainter;
 import lenguajes.final_project.backend.syntactic.SyntacticAnalyzer;
 import lenguajes.final_project.backend.token.Token;
+import lenguajes.final_project.exceptions.OperacionException;
 
 public class LexicalHighlighter {
 
@@ -33,10 +35,12 @@ public class LexicalHighlighter {
         PAINTER.pintarTexto(tokens);
     }
     
-    public void analizarSintaxis() {
+    public void analizarSintaxis(javax.swing.JTextPane TERMINAL) throws OperacionException {
         if (!tokens.isEmpty()) {
             SyntacticAnalyzer parser = new SyntacticAnalyzer(tokens);
-            parser.parse();
+            parser.parseAll();
+            Actions acciones = new Actions(TERMINAL);
+            acciones.evaluar(parser.getSentenceTokens());
         }
     }
 }

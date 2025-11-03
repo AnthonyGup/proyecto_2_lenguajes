@@ -1,3 +1,6 @@
+C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\actions\Actions.java
+C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\actions\Asignador.java
+C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\actions\Operator.java
 C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\backend\analyzer\LexicalHighlighter.java
 C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\backend\analyzer\Transition.java
 C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\backend\analyzer\WordFinder.java
@@ -9,6 +12,8 @@ C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project
 C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\backend\syntactic\SyntacticAnalyzer.java
 C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\backend\token\Token.java
 C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\backend\token\TokenType.java
+C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\backend\variables\Variable.java
+C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\exceptions\OperacionException.java
 C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\Final_project.java
 C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\frontend\windows\AnalyzerWindow.java
 C:\Users\antho\Documents\NetBeansProjects\Git\proyecto_2_lenguajes\Final_project\src\main\java\lenguajes\final_project\frontend\windows\MainWindow.java

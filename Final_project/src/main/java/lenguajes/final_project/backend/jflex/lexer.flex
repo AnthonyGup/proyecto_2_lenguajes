@@ -246,13 +246,13 @@ BlockCommentEnd = "\\*/"
 {NUMERO} {
     int inicio = (int)(yychar);
     Token token = new Token(TokenType.PALABRAS_RESERVADAS, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
-    token.setTipo2(TokenType.NUM); //????????????????????
+    token.setTipo2(TokenType.NUM);
     guardarToken(token);
 }
 {CADENA_WORD} {
     int inicio = (int)(yychar);
     Token token = new Token(TokenType.PALABRAS_RESERVADAS, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
-    token.setTipo2(TokenType.CAD); //????????????????????????
+    token.setTipo2(TokenType.CAD);
     guardarToken(token);
 }
 
@@ -267,11 +267,13 @@ BlockCommentEnd = "\\*/"
 {Decimal} {
     int inicio = (int)(yychar);
     Token token = new Token(TokenType.DECIMAL, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
+    token.setTipo2(TokenType.NUM); //????????????????????
     guardarToken(token);
 }
 {Numero} {
     int inicio = (int)(yychar);
     Token token = new Token(TokenType.NUMERO, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
+    token.setTipo2(TokenType.NUM); //????????????????????
     guardarToken(token);
 }
 
