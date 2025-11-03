@@ -13,6 +13,8 @@ import lenguajes.final_project.backend.analyzer.LexicalHighlighter;
 import lenguajes.final_project.backend.analyzer.WordFinder;
 import lenguajes.final_project.backend.files.FileHandler;
 import lenguajes.final_project.backend.painter.TextPainter;
+import lenguajes.final_project.backend.reports.ReportesManager;
+import lenguajes.final_project.exceptions.MultiplesException;
 import lenguajes.final_project.exceptions.OperacionException;
 
 /**
@@ -66,6 +68,8 @@ public class AnalyzerWindow extends javax.swing.JInternalFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
 
         setIconifiable(true);
         setMaximizable(true);
@@ -205,6 +209,23 @@ public class AnalyzerWindow extends javax.swing.JInternalFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Reportes");
+
+        jMenuItem4.setText("Reporte lexico");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem4);
+
+        jMenuItem5.setText("Reporte sintactico");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem5);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -291,10 +312,29 @@ public class AnalyzerWindow extends javax.swing.JInternalFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
             lexical.analizarSintaxis(terminal_textPane);
-        } catch (OperacionException ex) {
+        } catch (OperacionException | MultiplesException ex) {
             Logger.getLogger(AnalyzerWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        if (lexical.getTokens() == null) {
+            JOptionPane.showMessageDialog(this, "Error: Sin tokens para reportar");
+            return;
+        }
+        ReportesManager reportes = new ReportesManager(lexical.getTokens(), jDesktopPane);
+        reportes.abrirReportes();
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        try {
+            lexical.reportarVariables(terminal_textPane);// TODO add your handling code here:
+        } catch (OperacionException ex) {
+            Logger.getLogger(AnalyzerWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MultiplesException ex) {
+            Logger.getLogger(AnalyzerWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -311,6 +351,8 @@ public class AnalyzerWindow extends javax.swing.JInternalFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

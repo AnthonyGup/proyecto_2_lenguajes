@@ -1,6 +1,10 @@
 package lenguajes.final_project.backend.syntactic;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.StyledDocument;
 import lenguajes.final_project.backend.token.Token;
 import lenguajes.final_project.backend.token.TokenType;
 import static lenguajes.final_project.backend.token.TokenType.*;
@@ -14,6 +18,7 @@ public class SyntacticAnalyzer {
     private final List<Token> tokens;
     private List<List<Token>> sentenceTokens = new ArrayList<>();
     private int index = 0;
+    private StyledDocument terminal_textPane;
 
     // No terminales
     private final String[] noTerminales = {
@@ -30,7 +35,8 @@ public class SyntacticAnalyzer {
     // Tabla LL(1)
     private final String[][] tabla = new String[noTerminales.length][terminales.length];
 
-    public SyntacticAnalyzer(List<Token> tokens) {
+    public SyntacticAnalyzer(List<Token> tokens, javax.swing.JTextPane terminal_textPane) {
+        this.terminal_textPane = terminal_textPane.getStyledDocument();
         this.tokens = tokens;
         inicializarTabla();
     }
@@ -68,8 +74,9 @@ public class SyntacticAnalyzer {
 
         // Arg -> CADENA | E
         set("Arg", "CADENA", "CADENA");
+        set("Arg", "cadena", "cadena");
         set("Arg", "ID", "E");
-        set("Arg", "NUMERO", "E");
+        set("Arg", "numero", "E");
         set("Arg", "DECIMAL", "E");
         set("Arg", "(", "E");
 
@@ -78,7 +85,7 @@ public class SyntacticAnalyzer {
         set("E", "NUMERO", "T E'");
         set("E", "numero", "T E'"); //provisional 
         set("E", "DECIMAL", "T E'");
-        set("E", "CADENA", "T E'");
+        set("E", "cadena", "T E'");
         set("E", "(", "T E'");
 
         // E' -> + T E' | - T E' | ε
@@ -92,7 +99,7 @@ public class SyntacticAnalyzer {
         set("T", "NUMERO", "F T'");
         set("T", "numero", "F T'"); //provisional
         set("T", "DECIMAL", "F T'");
-        set("T", "CADENA", "F T'");
+        set("T", "cadena", "F T'");
         set("T", "(", "F T'");
 
         // T' -> * F T' | / F T' | ε
@@ -108,7 +115,7 @@ public class SyntacticAnalyzer {
         set("F", "NUMERO", "NUMERO");
         set("F", "numero", "numero");
         set("F", "DECIMAL", "DECIMAL");
-        set("F", "CADENA", "CADENA");
+        set("F", "cadena", "cadena");
         set("F", "(", "( E )");
     }
 
@@ -211,6 +218,11 @@ public class SyntacticAnalyzer {
                     }
                 } else {
                     System.out.println("Error: se esperaba " + cima + " pero llegó " + tokenActual);
+                    try {
+                        terminal_textPane.insertString(terminal_textPane.getLength(), "\n" + "Error: se esperaba " + cima + " pero llegó " + tokenActual, null);
+                    } catch (BadLocationException ex) {
+                        Logger.getLogger(SyntacticAnalyzer.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     return false;
                 }
             } else {
@@ -219,12 +231,22 @@ public class SyntacticAnalyzer {
 
                 if (i == -1 || j == -1) {
                     System.out.println("Error: símbolo no reconocido");
+                    try {
+                        terminal_textPane.insertString(terminal_textPane.getLength(), "\n" + "Error: simbolo no reconocido", null);
+                    } catch (BadLocationException ex) {
+                        Logger.getLogger(SyntacticAnalyzer.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     return false;
                 }
 
                 String produccion = tabla[i][j];
                 if (produccion.equals("ERROR")) {
                     System.out.println("Error: no hay regla para [" + cima + ", " + tokenActual + "]");
+                    try {
+                        terminal_textPane.insertString(terminal_textPane.getLength(), "\n" + "Error: no hay regla para [" + cima + ", " + tokenActual + "]", null);
+                    } catch (BadLocationException ex) {
+                        Logger.getLogger(SyntacticAnalyzer.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     return false;
                 }
 

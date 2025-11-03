@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import lenguajes.final_project.backend.token.Token;
 import lenguajes.final_project.backend.variables.*;
+import lenguajes.final_project.exceptions.MultiplesException;
 import lenguajes.final_project.exceptions.OperacionException;
 
 /**
@@ -23,7 +24,8 @@ public class Actions {
         this.TERMINAL = TERMINAL;
     }
 
-    public void evaluar(List<List<Token>> sentencias) throws OperacionException {
+    public void evaluar(List<List<Token>> sentencias) throws OperacionException, MultiplesException {
+        variables = new ArrayList<>();
         for (int i = 0; i < sentencias.size(); i++) {
             List<Token> linea = sentencias.get(i);
             if (!linea.isEmpty()) {
@@ -36,15 +38,22 @@ public class Actions {
                         asignar(sentencias.get(i));
                         break;
                     case ESCRIBIR:
-                        System.out.println("Se escribió algo");
-                        // llamar al escribir
+                        escribir(sentencias.get(i));
                         break;
                     default:
-                        break;
+                        throw new MultiplesException("Error: no se encuentra el tipo");
                 }
             }
 
         }
+    }
+    
+    private void escribir(List<Token> tokens) throws MultiplesException {
+        List<Token> nuevos = new ArrayList<>();
+        for (int i = 2; i < tokens.size() - 2; i++) {
+            nuevos.add(tokens.get(i));
+        }
+        Escribir es = new Escribir(variables, nuevos, TERMINAL);
     }
 
     private void definir(List<Token> tokens) {
@@ -55,24 +64,30 @@ public class Actions {
         System.out.println("//Variable: " + var.getNombre() + " definida como: " + var.getTipo());
     }
 
-    private void asignar(List<Token> tokens) throws OperacionException {
+    private void asignar(List<Token> tokens) throws OperacionException, MultiplesException {
         Variable var = comprobarExistencia(tokens.get(0).getLexema());
         if (var != null) {
-            if (var.isLibre()) {
-                Asignador asignador = new Asignador(var, tokens, variables);
-                asignador.asignar();
-            }
+            Asignador asignador = new Asignador(var, tokens, variables);
+            asignador.asignar();
         }
     }
 
-    private Variable comprobarExistencia(String lexema) {
+    private Variable comprobarExistencia(String lexema) throws MultiplesException {
         for (int i = 0; i < variables.size(); i++) {
             Variable nueva = variables.get(i);
             if (nueva.getNombre().equals(lexema)) {
                 return nueva;
             }
         }
-        System.out.println("Variable: " + lexema + " no ha sido definida");
-        return null;
+        throw new MultiplesException("Variable: " + lexema + " no ha sido definida");
+    }
+    
+    public void reportarVariables() {
+        Escribir escritor = new Escribir(variables, TERMINAL);
+        escritor.reportarVar();
+    }
+
+    public ArrayList<Variable> getVariables() {
+        return variables;
     }
 }

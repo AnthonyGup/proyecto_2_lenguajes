@@ -12,12 +12,14 @@ import lenguajes.final_project.backend.jflex.Lexer;
 import lenguajes.final_project.backend.painter.TextPainter;
 import lenguajes.final_project.backend.syntactic.SyntacticAnalyzer;
 import lenguajes.final_project.backend.token.Token;
+import lenguajes.final_project.exceptions.MultiplesException;
 import lenguajes.final_project.exceptions.OperacionException;
 
 public class LexicalHighlighter {
 
     private final TextPainter PAINTER;
-    private ArrayList<Token> tokens;
+    private ArrayList<Token> tokens = new ArrayList<>();
+    private Actions acciones;
 
     public LexicalHighlighter(TextPainter PAINTER) {
         this.PAINTER = PAINTER;
@@ -35,12 +37,25 @@ public class LexicalHighlighter {
         PAINTER.pintarTexto(tokens);
     }
     
-    public void analizarSintaxis(javax.swing.JTextPane TERMINAL) throws OperacionException {
+    public void analizarSintaxis(javax.swing.JTextPane TERMINAL) throws OperacionException, MultiplesException {
         if (!tokens.isEmpty()) {
-            SyntacticAnalyzer parser = new SyntacticAnalyzer(tokens);
+            SyntacticAnalyzer parser = new SyntacticAnalyzer(tokens, TERMINAL);
             parser.parseAll();
-            Actions acciones = new Actions(TERMINAL);
+            acciones = new Actions(TERMINAL);
             acciones.evaluar(parser.getSentenceTokens());
         }
     }
+    
+    public void reportarVariables(javax.swing.JTextPane TERMINAL) throws OperacionException, MultiplesException {
+        analizarSintaxis(TERMINAL);
+        if (acciones != null && !acciones.getVariables().isEmpty()) {
+            acciones.reportarVariables();
+        }
+    }
+
+    public ArrayList<Token> getTokens() {
+        return tokens;
+    }
+    
+    
 }

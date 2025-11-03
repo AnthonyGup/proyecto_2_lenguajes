@@ -9,6 +9,7 @@ import java.util.List;
 import lenguajes.final_project.backend.token.Token;
 import lenguajes.final_project.backend.token.TokenType;
 import lenguajes.final_project.backend.variables.Variable;
+import lenguajes.final_project.exceptions.MultiplesException;
 import lenguajes.final_project.exceptions.OperacionException;
 
 /**
@@ -33,7 +34,7 @@ public class Asignador {
         this.variables = variables;
     }
     
-    public boolean asignar() throws OperacionException {
+    public boolean asignar() throws OperacionException, MultiplesException {
         evaluar();
         return !var.isLibre();
     }
@@ -59,7 +60,7 @@ public class Asignador {
         return separados;
     }
     
-    private void evaluar() throws OperacionException {
+    private void evaluar() throws OperacionException, MultiplesException {
         List<Token> contenidos = separarTokens();
         if (contenidos.get(0).getTipo2().equals(TokenType.CAD)) {
             var.setContenido(contenidos.get(0).getLexema());

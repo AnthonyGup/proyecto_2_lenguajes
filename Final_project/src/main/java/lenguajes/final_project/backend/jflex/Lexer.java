@@ -1181,6 +1181,7 @@ public class Lexer {
           case 19:
             { int inicio = (int)(yychar);
     Token token = new Token(TokenType.CADENA, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
+    token.setTipo2(TokenType.CAD);
     guardarToken(token);
             }
           // fall through
@@ -1239,7 +1240,7 @@ public class Lexer {
           case 27:
             { int inicio = (int)(yychar);
     Token token = new Token(TokenType.PALABRAS_RESERVADAS, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
-    token.setTipo2(TokenType.CAD); //????????????????????????
+    token.setTipo2(TokenType.CAD);
     guardarToken(token);
             }
           // fall through
@@ -1255,7 +1256,7 @@ public class Lexer {
           case 29:
             { int inicio = (int)(yychar);
     Token token = new Token(TokenType.PALABRAS_RESERVADAS, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
-    token.setTipo2(TokenType.NUM); //????????????????????
+    token.setTipo2(TokenType.NUM);
     guardarToken(token);
             }
           // fall through

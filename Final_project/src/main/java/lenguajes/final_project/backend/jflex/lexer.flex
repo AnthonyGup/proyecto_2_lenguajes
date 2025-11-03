@@ -183,6 +183,7 @@ BlockCommentEnd = "\\*/"
 \"([^\"\n\r])*\" {
     int inicio = (int)(yychar);
     Token token = new Token(TokenType.CADENA, yytext(), inicio, new Position(yyline+1, (yycolumn - yylength())+1 ));
+    token.setTipo2(TokenType.CAD);
     guardarToken(token);
 }
 

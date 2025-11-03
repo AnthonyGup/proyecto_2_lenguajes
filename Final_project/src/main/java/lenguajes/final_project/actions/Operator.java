@@ -7,6 +7,7 @@ package lenguajes.final_project.actions;
 import java.util.List;
 import lenguajes.final_project.backend.token.Token;
 import lenguajes.final_project.backend.token.TokenType;
+import lenguajes.final_project.exceptions.MultiplesException;
 
 /**
  *
@@ -17,12 +18,17 @@ public class Operator {
     private final List<Token> TOKENS;
     private String resultado;
 
-    public Operator(List<Token> tokens) {
+    /**
+     * 
+     * @param tokens
+     * @throws MultiplesException 
+     */
+    public Operator(List<Token> tokens) throws MultiplesException {
         this.TOKENS = tokens;
         evaluar();
     }
 
-    private void evaluar() {
+    private void evaluar() throws MultiplesException {
         for (TokenType tipo : List.of(TokenType.DIV, TokenType.POR, TokenType.MAS, TokenType.MENOS)) {
             for (int i = 0; i < TOKENS.size(); i++) {
                 if (TOKENS.get(i).getTipo2().equals(tipo)) {
@@ -42,7 +48,10 @@ public class Operator {
         }
     }
 
-    private void operar(Token t1, Token operador, Token t2, int index) {
+    private void operar(Token t1, Token operador, Token t2, int index) throws MultiplesException {
+        if (!t1.getTipo2().equals(TokenType.NUM) || !t2.getTipo2().equals(TokenType.NUM)) {
+            throw new MultiplesException("Algun token  no era de tipo valido");
+        }
         double n1 = Double.parseDouble(t1.getLexema());
         double n2 = Double.parseDouble(t2.getLexema());
         double res;
